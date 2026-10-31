@@ -1,6 +1,11 @@
 {
-  "icon": "images/icon-256.png",
-  "title": "MiNVR",
-  "url": "http://127.0.0.1:${TRIM_SERVICE_PORT}",
-  "type": "web"
+  "minvr.Application": {
+    "title": "{display_name}",
+    "icon": "images/icon_{0}.png",
+    "type": "url",
+    "protocol": "http",
+    "port": "{port}",
+    "url": "/",
+    "allUsers": false
+  }
 }

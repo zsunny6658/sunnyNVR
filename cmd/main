@@ -1,34 +1,39 @@
-#!/bin/sh
-# MiNVR 生命周期入口：start / stop / status
-# 容器由飞牛应用中心（docker-project）管理，这里做健壮性兜底与健康检查。
-set -e
+#!/bin/bash
 
-ACTION="$1"
-SCRIPT_DIR=$(cd "$(dirname "$0")/.." && pwd)
-COMPOSE_DIR="$SCRIPT_DIR/app/docker"
-PORT="${TRIM_SERVICE_PORT:-8080}"
+FILE_PATH="${TRIM_APPDEST}/docker/docker-compose.yaml"
 
-case "$ACTION" in
-  start)
-    if command -v docker >/dev/null 2>&1; then
-      ( cd "$COMPOSE_DIR" && docker compose up -d ) >/dev/null 2>&1 || true
+is_docker_running () {
+    DOCKER_NAME=""
+
+    if [ -f "$FILE_PATH" ]; then
+        DOCKER_NAME=$(cat $FILE_PATH | grep "container_name" | awk -F ':' '{print $2}' | xargs)
+        echo "DOCKER_NAME is set to: $DOCKER_NAME"
     fi
+
+    if [ -n "$DOCKER_NAME" ]; then
+        docker inspect $DOCKER_NAME | grep -q "\"Status\": \"running\"," || exit 1
+        return
+    fi
+}
+
+case $1 in
+start)
+    # docker 应用由 appcenter 管理，无需手动启动
     exit 0
     ;;
-  stop)
-    if command -v docker >/dev/null 2>&1; then
-      ( cd "$COMPOSE_DIR" && docker compose down ) >/dev/null 2>&1 || true
-    fi
+stop)
+    # docker 应用由 appcenter 管理，无需手动停止
     exit 0
     ;;
-  status)
-    if curl -fsS "http://127.0.0.1:${PORT}/api/health" >/dev/null 2>&1; then
-      exit 0
+status)
+    # exit 0 if running, exit 3 if not running
+    if is_docker_running; then
+        exit 0
     else
-      exit 1
+        exit 3
     fi
     ;;
-  *)
-    exit 0
+*)
+    exit 1
     ;;
 esac

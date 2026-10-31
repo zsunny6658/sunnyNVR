@@ -1,3 +1,8 @@
 {
-  "run-as": "package"
+    "defaults":
+    {
+        "run-as": "package"
+    },
+    "username": "docker-minvr",
+    "groupname": "docker-minvr"
 }
