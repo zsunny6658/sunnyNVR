@@ -1,0 +1,56 @@
+{
+  "schema_version": "moo",
+  "source_info": {
+    "name": "MiNVR 应用源",
+    "homepage": "https://github.com/zsunny6658/sunnyNVR",
+    "distributor": "zsunny6658",
+    "description": "MiNVR 米家摄像头直连接入与轻量 NVR 平台（飞牛 fnOS FPK）",
+    "updated_at": "2026-10-31T15:31:00+08:00"
+  },
+  "apps": {
+    "minvr": {
+      "display_name": "MiNVR 米家摄像头直连接入平台",
+      "app_type": "native",
+      "platform": [
+        "x86",
+        "arm"
+      ],
+      "desc": "米家摄像头账号直连 + 任意 RTSP/ONVIF 摄像头统一接入的轻量 NVR：内置 go2rtc 媒体核心，Web 实时预览、按需录像，无需额外桥接服务。",
+      "author": "zsunny6658",
+      "distributor": "zsunny6658",
+      "homepage": "https://github.com/zsunny6658/sunnyNVR",
+      "license": "MIT",
+      "releases": {
+        "0.2.0": {
+          "updated_at": "2026-10-31T15:31:00+08:00",
+          "changelog": "米家账号直连接入（无需 miloco 桥接）；内置 go2rtc 媒体核心；WebRTC/MSE/HLS 播放自动降级；单容器交付。",
+          "packages": {
+            "x86": {
+              "download_url": "https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.0/minvr_0.2.0_x86.fpk",
+              "sha256": "d0f706fdeed19cc09207bb1dcf1b26e540a1b33f0b72f11b52a18a50fc83b825",
+              "size": 27744,
+              "size_mb": 0.03
+            },
+            "arm": {
+              "download_url": "https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.0/minvr_0.2.0_arm64.fpk",
+              "sha256": "e185c9e4c21b457b4c10844d5eb7febf7f4e44d26c404a371509f590133e483d",
+              "size": 27718,
+              "size_mb": 0.03
+            }
+          }
+        }
+      },
+      "sha256": "d0f706fdeed19cc09207bb1dcf1b26e540a1b33f0b72f11b52a18a50fc83b825",
+      "icon_url": "https://raw.githubusercontent.com/zsunny6658/sunnyNVR/main/ICON_256.PNG",
+      "readme_url": "https://raw.githubusercontent.com/zsunny6658/sunnyNVR/main/README.md",
+      "labels": "智能智控",
+      "install_type": "应用空间",
+      "version": "0.2.0",
+      "download_url": "https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.0/minvr_0.2.0_x86.fpk",
+      "size": 27744,
+      "service_port": "8080",
+      "size_mb": 0.03,
+      "changelog": ""
+    }
+  }
+}
