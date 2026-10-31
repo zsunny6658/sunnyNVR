@@ -1,0 +1,34 @@
+#!/bin/sh
+# MiNVR 生命周期入口：start / stop / status
+# 容器由飞牛应用中心（docker-project）管理，这里做健壮性兜底与健康检查。
+set -e
+
+ACTION="$1"
+SCRIPT_DIR=$(cd "$(dirname "$0")/.." && pwd)
+COMPOSE_DIR="$SCRIPT_DIR/app/docker"
+PORT="${TRIM_SERVICE_PORT:-8080}"
+
+case "$ACTION" in
+  start)
+    if command -v docker >/dev/null 2>&1; then
+      ( cd "$COMPOSE_DIR" && docker compose up -d ) >/dev/null 2>&1 || true
+    fi
+    exit 0
+    ;;
+  stop)
+    if command -v docker >/dev/null 2>&1; then
+      ( cd "$COMPOSE_DIR" && docker compose down ) >/dev/null 2>&1 || true
+    fi
+    exit 0
+    ;;
+  status)
+    if curl -fsS "http://127.0.0.1:${PORT}/api/health" >/dev/null 2>&1; then
+      exit 0
+    else
+      exit 1
+    fi
+    ;;
+  *)
+    exit 0
+    ;;
+esac

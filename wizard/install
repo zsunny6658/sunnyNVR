@@ -1,0 +1,13 @@
+{
+  "title": "MiNVR 初始设置",
+  "items": [
+    {
+      "name": "ADMIN_PASSWORD",
+      "type": "password",
+      "title": "管理员密码",
+      "initValue": "admin",
+      "tips": "Web 管理后台登录密码，默认 admin，建议安装后修改。米家账号在「米家接入」页内填写。",
+      "required": true
+    }
+  ]
+}

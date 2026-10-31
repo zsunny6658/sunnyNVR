@@ -1,0 +1,19 @@
+# MiNVR 单容器编排：Node 管理后端 + go2rtc 媒体核心 + ffmpeg 全部内置于同一镜像
+# 由飞牛应用中心通过 config/resource 的 docker-project 声明自动管理启停
+services:
+  minvr:
+    build:
+      context: ../minvr
+      dockerfile: Dockerfile
+    image: minvr/minvr:0.2.0
+    container_name: minvr
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TRIM_SERVICE_PORT=${TRIM_SERVICE_PORT:-8080}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GO2RTC_BIN=${GO2RTC_BIN:-/usr/local/bin/go2rtc}
+      - GO2RTC_PORT=${GO2RTC_PORT:-1984}
+      - TZ=Asia/Shanghai
+    volumes:
+      - ${TRIM_PKGVAR:-/data}/data:/data

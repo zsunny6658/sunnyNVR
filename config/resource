@@ -1,0 +1,14 @@
+{
+  "data-share": {
+    "name": "MiNVR 数据",
+    "path": "data"
+  },
+  "docker-project": {
+    "projects": [
+      {
+        "name": "minvr",
+        "path": "app/docker"
+      }
+    ]
+  }
+}

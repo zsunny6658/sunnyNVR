@@ -1,0 +1,17 @@
+{
+  "name": "minvr",
+  "version": "0.2.0",
+  "description": "MiNVR - 米家摄像头直连接入与轻量 NVR 平台（go2rtc 媒体核心）",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "icon": "images/icon-256.png",
+  "title": "MiNVR",
+  "url": "http://127.0.0.1:${TRIM_SERVICE_PORT}",
+  "type": "web"
+}

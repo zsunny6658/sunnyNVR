@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiNVR · 米家摄像头直连接入平台</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- 登录 -->
+  <div id="login" class="login-wrap">
+    <div class="login-card">
+      <div class="brand">MiNVR</div>
+      <div class="brand-sub">米家摄像头直连接入与轻量 NVR</div>
+      <input id="pwd" type="password" placeholder="管理员密码（默认 admin）" />
+      <button id="loginBtn">登 录</button>
+      <div id="loginErr" class="err"></div>
+    </div>
+  </div>
+
+  <!-- 主界面 -->
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="title">MiNVR <span class="muted">摄像头接入平台</span></div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="live">实时预览</button>
+        <button class="tab" data-tab="mihome">米家接入</button>
+        <button class="tab" data-tab="settings">设置</button>
+      </nav>
+      <div class="spacer"></div>
+      <button id="logoutBtn" class="ghost">退出</button>
+    </header>
+
+    <main>
+      <section id="tab-live" class="tab-pane active">
+        <div class="toolbar">
+          <button id="addBtn" class="primary">+ 添加摄像头</button>
+          <span id="mediaStatus" class="badge"></span>
+        </div>
+        <div id="grid" class="grid"></div>
+        <div id="empty" class="empty hidden">还没有摄像头，点击「添加摄像头」或在「米家接入」中导入。</div>
+      </section>
+
+      <section id="tab-mihome" class="tab-pane">
+        <div class="card">
+          <h3>米家直连接入</h3>
+          <p class="hint">填写米家（小米）账号与密码，登录后自动枚举账号下的摄像头，勾选即可一键导入。拉流由内置 go2rtc 的 <code>xiaomi://</code> 源完成，无需额外桥接服务。</p>
+          <div class="form-row">
+            <label>米家账号</label>
+            <input id="miUser" placeholder="小米账号（手机号/邮箱）" />
+          </div>
+          <div class="form-row">
+            <label>密码</label>
+            <input id="miPass" type="password" placeholder="米家 App 登录密码" />
+          </div>
+          <div class="modal-actions">
+            <button id="miDiscover" class="primary">登录并获取摄像头列表</button>
+          </div>
+          <div id="miStatus" class="err"></div>
+          <div id="miloList" class="milo-list"></div>
+        </div>
+      </section>
+
+      <section id="tab-settings" class="tab-pane">
+        <div class="card">
+          <h3>平台设置</h3>
+          <div class="form-row">
+            <label>开启录像</label>
+            <input id="setRecord" type="checkbox" />
+          </div>
+          <button id="setSave" class="primary">保存设置</button>
+          <p class="hint">录像文件保存在数据卷 <code>/data/recordings</code>，可在「实时预览」中查看各摄像头录像。</p>
+          <hr/>
+          <h3>本机信息</h3>
+          <pre id="about"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 添加摄像头弹窗 -->
+  <div id="addModal" class="modal hidden">
+    <div class="modal-card">
+      <h3>添加摄像头</h3>
+      <div class="form-row"><label>名称</label><input id="camName" placeholder="客厅摄像头" /></div>
+      <div class="form-row"><label>类型</label>
+        <select id="camType">
+          <option value="rtsp">RTSP / ONVIF 直连</option>
+          <option value="xiaomi">米家直连（账号密码）</option>
+        </select>
+      </div>
+      <div id="row-source" class="form-row"><label>取流地址</label><input id="camSource" placeholder="rtsp://admin:密码@192.168.1.20:554/stream1" /></div>
+      <div id="row-mi" class="hidden">
+        <div class="form-row"><label>米家账号</label><input id="camMiUser" placeholder="小米账号" /></div>
+        <div class="form-row"><label>密码</label><input id="camMiPass" type="password" placeholder="米家密码" /></div>
+        <div class="form-row"><label>设备 DID</label><input id="camMiDid" placeholder="可选，留空自动" /></div>
+      </div>
+      <div class="form-row"><label>备注</label><input id="camNotes" placeholder="可选" /></div>
+      <div class="modal-actions">
+        <button id="camCancel" class="ghost">取消</button>
+        <button id="camSave" class="primary">添加</button>
+      </div>
+      <div id="camErr" class="err"></div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
