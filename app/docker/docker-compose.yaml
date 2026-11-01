@@ -2,10 +2,10 @@ version: "3.8"
 
 services:
   minvr:
-    image: ghcr.io/zsunny6658/minvr:0.2.1
+    image: minvr:0.2.1
     container_name: minvr
     ports:
-      - "{host_port}:8080"
+      - "8080:8080"
     volumes:
       - "/var/apps/minvr/shares/minvr/data:/data"
     restart: unless-stopped

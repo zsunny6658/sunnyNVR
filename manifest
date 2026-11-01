@@ -1,11 +1,13 @@
 appname = minvr
 version = 0.2.1
 display_name = MiNVR 米家摄像头直连接入平台
-desc = 米家摄像头直连接入与轻量 NVR 平台：内置 go2rtc 媒体核心，支持米家账号直连(xiaomi://)与任意 RTSP/ONVIF 摄像头统一拉流、Web 实时预览、按需录像，无需额外桥接服务。
+desc = 米家摄像头直连接入与轻量 NVR 平台：内置 go2rtc 媒体核心，支持米家账号直连(xiaomi://)与任意 RTSP/ONVIF 摄像头统一拉流、Web 实时预览、按需录像，无需额外桥接服务。镜像已内置离线安装包，安装阶段不依赖外网。
 platform = all
 source = thirdparty
 maintainer = zsunny6658
 distributor = zsunny6658
+service_port = 8080
+ctl_stop = true
 desktop_uidir = ui
 desktop_applaunchname = minvr.Application
 website = https://github.com/zsunny6658/sunnyNVR

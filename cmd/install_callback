@@ -1,3 +1,38 @@
 #!/bin/sh
-# 安装后回调（占位）
+# 安装后回调：导入离线镜像并启动容器（解压已完成，文件已就位）
+COMPOSE_DIR="${TRIM_APPDEST:-/var/apps/minvr/target}/docker"
+COMPOSE="$COMPOSE_DIR/docker-compose.yaml"
+
+if docker compose version >/dev/null 2>&1; then
+  DC="docker compose"
+else
+  DC="docker-compose"
+fi
+
+ARCH_TAR="minvr_amd64.tar"
+case "$(uname -m)" in
+  aarch64|arm64) ARCH_TAR="minvr_arm64.tar" ;;
+esac
+
+TAR="$COMPOSE_DIR/$ARCH_TAR"
+if [ ! -f "$TAR" ]; then
+  echo "未找到架构 $(uname -m) 对应的离线镜像包：$TAR" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+  exit 1
+fi
+
+if ! docker load -i "$TAR" >/dev/null 2>&1; then
+  echo "docker load 失败：$TAR" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+  exit 1
+fi
+
+LOADED=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep -E 'minvr:0\.2\.1-(amd64|arm64)' | head -1)
+if [ -n "$LOADED" ]; then
+  docker tag "$LOADED" minvr:0.2.1
+fi
+
+mkdir -p /var/apps/minvr/shares/minvr/data
+if ! $DC -f "$COMPOSE" up -d 2>&1 | tail -5; then
+  echo "docker compose up 失败" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+  exit 1
+fi
 exit 0

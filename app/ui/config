@@ -1,13 +1,13 @@
 {
-    ".url": {
-        "minvr.Application": {
-            "title": "{display_name}",
-            "icon": "images/icon_{0}.png",
-            "type": "url",
-            "protocol": "http",
-            "port": "{port}",
-            "url": "/{url-path}",
-            "allUsers": false
-        }
+  ".url": {
+    "minvr.Application": {
+      "title": "MiNVR",
+      "icon": "images/icon_{0}.png",
+      "type": "url",
+      "protocol": "http",
+      "port": "8080",
+      "url": "/",
+      "allUsers": true
     }
+  }
 }

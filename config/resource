@@ -1,12 +1,4 @@
 {
-  "docker-project": {
-    "projects": [
-      {
-        "name": "minvr",
-        "path": "docker"
-      }
-    ]
-  },
   "data-share": {
     "shares": [
       {

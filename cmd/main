@@ -1,39 +1,74 @@
 #!/bin/bash
+# MiNVR 生命周期脚本：自带脚本完整掌控容器生命周期。
+# 不依赖 fnOS docker-project 自动 compose up，避免离线镜像未导入时报 No such image。
+set -u
 
-FILE_PATH="${TRIM_APPDEST}/docker/docker-compose.yaml"
+COMPOSE_DIR="${TRIM_APPDEST:-/var/apps/minvr/target}/docker"
+COMPOSE="$COMPOSE_DIR/docker-compose.yaml"
+DATA_DIR="/var/apps/minvr/shares/minvr/data"
 
-is_docker_running () {
-    DOCKER_NAME=""
+# docker compose 命令兼容（v2 plugin 优先，回退 v1）
+if docker compose version >/dev/null 2>&1; then
+  DC="docker compose"
+else
+  DC="docker-compose"
+fi
 
-    if [ -f "$FILE_PATH" ]; then
-        DOCKER_NAME=$(cat $FILE_PATH | grep "container_name" | awk -F ':' '{print $2}' | xargs)
-        echo "DOCKER_NAME is set to: $DOCKER_NAME"
-    fi
+logerr() {
+  echo "$1" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+}
 
-    if [ -n "$DOCKER_NAME" ]; then
-        docker inspect $DOCKER_NAME | grep -q "\"Status\": \"running\"," || exit 1
-        return
-    fi
+arch_tar() {
+  case "$(uname -m)" in
+    aarch64|arm64) echo "minvr_arm64.tar" ;;
+    *) echo "minvr_amd64.tar" ;;
+  esac
+}
+
+ensure_image() {
+  # 镜像已存在则跳过
+  if docker image inspect minvr:0.2.1 >/dev/null 2>&1; then
+    return 0
+  fi
+  local TAR="$COMPOSE_DIR/$(arch_tar)"
+  if [ ! -f "$TAR" ]; then
+    logerr "未找到离线镜像包：$TAR（请确认 FPK 完整）"
+    return 1
+  fi
+  if ! docker load -i "$TAR" >/dev/null 2>&1; then
+    logerr "docker load 失败：$TAR"
+    return 1
+  fi
+  # 将加载进来的带架构后缀镜像统一打成本地 tag minvr:0.2.1
+  local LOADED
+  LOADED=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep -E 'minvr:0\.2\.1-(amd64|arm64)' | head -1)
+  if [ -n "$LOADED" ]; then
+    docker tag "$LOADED" minvr:0.2.1
+  else
+    logerr "加载后未找到 minvr 镜像"
+    return 1
+  fi
+  return 0
 }
 
 case $1 in
-start)
-    # docker 应用由 appcenter 管理，无需手动启动
+  start)
+    ensure_image || exit 1
+    mkdir -p "$DATA_DIR"
+    $DC -f "$COMPOSE" up -d 2>&1 | tail -5
     exit 0
     ;;
-stop)
-    # docker 应用由 appcenter 管理，无需手动停止
+  stop)
+    $DC -f "$COMPOSE" down 2>/dev/null
     exit 0
     ;;
-status)
-    # exit 0 if running, exit 3 if not running
-    if is_docker_running; then
-        exit 0
-    else
-        exit 3
+  status)
+    if docker inspect -f '{{.State.Running}}' minvr 2>/dev/null | grep -q true; then
+      exit 0
     fi
+    exit 3
     ;;
-*)
+  *)
     exit 1
     ;;
 esac

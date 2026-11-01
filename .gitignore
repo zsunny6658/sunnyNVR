@@ -6,3 +6,10 @@ node_modules/
 .vscode/
 dist/
 *.fpk
+# 离线镜像包（构建产物，打包进 FPK 但不进 git）
+app/docker/*.tar
+# 预置的构建输入二进制（宿主预下载，不进 git）
+app/minvr/ffbin/
+app/minvr/go2rtc_linux_amd64
+app/minvr/go2rtc_linux_arm64
+app/minvr/ffmpeg-release-*.tar.xz
