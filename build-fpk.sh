@@ -16,6 +16,8 @@ done
 cp -r "$ROOT/app" "$TMP/"
 # 容器内由 Dockerfile 重新 npm install，fpk 不携带 node_modules / 构建产物
 rm -rf "$TMP/app/minvr/node_modules" "$TMP/app/minvr/dist" "$TMP/app/minvr/package-lock.json"
+# 排除可能残留的离线构建输入（如下载的静态 ffmpeg 压缩包），避免打进 fpk
+rm -f "$TMP/app/minvr/"*.tar.xz "$TMP/app/minvr/"ffmpeg-release-*.tar.xz
 
 cd "$TMP"
 "$FNPACK" build -d "$TMP"
