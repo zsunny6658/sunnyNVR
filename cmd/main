@@ -35,8 +35,10 @@ ensure_image() {
     logerr "未找到离线镜像包：$TAR（请确认 FPK 完整）"
     return 1
   fi
-  if ! docker load -i "$TAR" >/dev/null 2>&1; then
-    logerr "docker load 失败：$TAR"
+  ERRLOG=/tmp/minvr-install.log
+  if ! docker load -i "$TAR" >"$ERRLOG" 2>&1; then
+    logerr "docker load 失败：$TAR（详情 $ERRLOG）"
+    tail -3 "$ERRLOG" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}" 2>/dev/null
     return 1
   fi
   # 将加载进来的带架构后缀镜像统一打成本地 tag minvr:0.2.1

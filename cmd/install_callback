@@ -20,8 +20,10 @@ if [ ! -f "$TAR" ]; then
   exit 1
 fi
 
-if ! docker load -i "$TAR" >/dev/null 2>&1; then
-  echo "docker load 失败：$TAR" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+ERRLOG=/tmp/minvr-install.log
+if ! docker load -i "$TAR" >"$ERRLOG" 2>&1; then
+  echo "docker load 失败：$TAR（详情 $ERRLOG）" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}"
+  tail -3 "$ERRLOG" > "${TRIM_TEMP_LOGFILE:-/dev/stderr}" 2>/dev/null
   exit 1
 fi
 

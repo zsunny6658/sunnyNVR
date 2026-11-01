@@ -5,7 +5,7 @@
     "homepage": "https://github.com/zsunny6658/sunnyNVR",
     "distributor": "zsunny6658",
     "description": "MiNVR 米家摄像头直连接入与轻量 NVR 平台（飞牛 fnOS FPK）",
-    "updated_at": "2026-11-01T10:35:00+08:00"
+    "updated_at": "2026-11-01T11:30:00+08:00"
   },
   "apps": {
     "minvr": {
@@ -22,32 +22,32 @@
       "license": "MIT",
       "releases": {
         "0.2.1": {
-          "updated_at": "2026-11-01T10:35:00+08:00",
-          "changelog": "改用飞牛官方 fnpack 打包，修复“不是有效的 fpk 文件”；镜像随包离线安装（安装时按架构 docker load 本地镜像，无需外网拉取 ghcr）；米家账号直连 + RTSP/ONVIF 接入；内置 go2rtc 媒体核心 + 静态 ffmpeg，WebRTC/MSE/HLS 自动降级，支持按需录像。x86/arm 通用单包。",
+          "updated_at": "2026-11-01T11:30:00+08:00",
+          "changelog": "修复真机安装 docker load 失败：离线镜像改用传统 docker-archive 格式（兼容全部 docker 版本）；镜像随包离线安装（安装时按架构 docker load 本地镜像，无需外网拉取）；米家账号直连 + RTSP/ONVIF 接入；内置 go2rtc 媒体核心 + 静态 ffmpeg，WebRTC/MSE/HLS 自动降级，支持按需录像。x86/arm 通用单包。",
           "packages": {
             "x86": {
               "download_url": "https://ghproxy.net/https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.1/minvr_0.2.1.fpk",
-              "sha256": "b396bfe026d300c18309d224b66d5efea850a3fbbb01db94d90a1984a991fe32",
-              "size": 364498826,
+              "sha256": "534a3ddd5a67bf81ff156e967787a27262eebc79338dbb5cbf60f9a91bc3fe77",
+              "size": 364516566,
               "size_mb": 348
             },
             "arm": {
               "download_url": "https://ghproxy.net/https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.1/minvr_0.2.1.fpk",
-              "sha256": "b396bfe026d300c18309d224b66d5efea850a3fbbb01db94d90a1984a991fe32",
-              "size": 364498826,
+              "sha256": "534a3ddd5a67bf81ff156e967787a27262eebc79338dbb5cbf60f9a91bc3fe77",
+              "size": 364516566,
               "size_mb": 348
             }
           }
         }
       },
-      "sha256": "b396bfe026d300c18309d224b66d5efea850a3fbbb01db94d90a1984a991fe32",
+      "sha256": "534a3ddd5a67bf81ff156e967787a27262eebc79338dbb5cbf60f9a91bc3fe77",
       "icon_url": "https://cdn.jsdelivr.net/gh/zsunny6658/sunnyNVR@main/app/ui/images/icon_256.png",
       "readme_url": "https://cdn.jsdelivr.net/gh/zsunny6658/sunnyNVR@main/README.md",
       "labels": "智能智控",
       "install_type": "应用空间",
       "version": "0.2.1",
       "download_url": "https://ghproxy.net/https://github.com/zsunny6658/sunnyNVR/releases/download/v0.2.1/minvr_0.2.1.fpk",
-      "size": 364498826,
+      "size": 364516566,
       "service_port": "8080",
       "size_mb": 348,
       "changelog": "改用飞牛官方 fnpack 打包，修复“不是有效的 fpk 文件”；镜像随包离线安装（无需外网拉取 ghcr）；米家账号直连 + RTSP/ONVIF 接入；内置 go2rtc + 静态 ffmpeg，WebRTC/MSE/HLS 自动降级，支持按需录像。"
